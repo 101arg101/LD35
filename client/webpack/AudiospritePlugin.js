@@ -12,7 +12,7 @@ AudiospritePlugin.prototype.apply = function (compiler) {
   console.log("generating audiosprite...");
 
   audiosprite(this.files, this.options, function(err, obj) {
-    if (err) return console.error(err)
+    if (err) return console.error(err);
 
     console.log("audiosprite generated.")
 

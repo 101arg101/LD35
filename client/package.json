@@ -17,8 +17,10 @@
     "behaviour.js": "^0.2.4",
     "clock-timer.js": "^1.1.0",
     "colyseus.js": "^0.2.6",
+    "express": "^4.15.2",
     "howler": "^1.1.29",
     "lerp": "^1.0.3",
+    "logrocket": "^0.4.2",
     "pixi.js": "~3.0.11",
     "tweener": "^0.1.28"
   },

@@ -66,6 +66,11 @@ module.exports = {
     ], {
       output: 'public/audio',
       format: 'howler',
+      logger: {
+        log: console.log,
+        debug: console.log,
+        info: console.log
+      },
       path: '',
       loop: [
         'theme-song',

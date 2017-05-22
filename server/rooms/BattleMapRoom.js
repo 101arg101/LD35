@@ -2,7 +2,7 @@
 
 var Room = require('colyseus').Room
 
-  , ClockTimer = require('clock-timer.js')
+  , ClockTimer = require('clock-timer.js').default
 
   , StateHandler = require('./../handlers/StateHandler.js')
 
@@ -41,7 +41,7 @@ class BattleMapRoom extends Room {
 
     this.heroes.set( client, hero )
 
-    console.log(client.id, 'joined', options)
+    console.log(client.id, 'joined', options, hero)
   }
 
   onMessage (client, data) {
