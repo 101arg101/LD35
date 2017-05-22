@@ -2,7 +2,7 @@ import Colyseus from 'colyseus.js'
 
 const url = ( window.location.href.match(/localhost/) )
   ? "ws://localhost:3553"
-  : window.location.protocol.replace("http", "ws") + "//" + window.location.hostname
+  : window.location.protocol.replace("http", "ws") + "//" + window.location.hostname + ':3553'
 
 let client = new Colyseus( url )
 let connectedRoom = null
