@@ -33731,7 +33731,6 @@
 	    _this.addChild(_this.circle);
 	
 	    if (_this.isCurrentPlayer) {
-	
 	      _this.attackButton = _this.createButton('sword.png');
 	      _this.attackButton.on('click', _this.upgradeAttribute.bind(_this, 'attack'));
 	      _this.attackButton.on('touchstart', _this.upgradeAttribute.bind(_this, 'attack'));
@@ -33743,6 +33742,12 @@
 	      _this.defenseButton.on('touchstart', _this.upgradeAttribute.bind(_this, 'defense'));
 	      _this.defenseButton.x += _this.circle.width * 1.1;
 	      _this.addChild(_this.defenseButton);
+	
+	      _this.speedButton = _this.createButton('boot.png');
+	      _this.speedButton.on('click', _this.upgradeAttribute.bind(_this, 'speed'));
+	      _this.speedButton.on('touchstart', _this.upgradeAttribute.bind(_this, 'speed'));
+	      _this.speedButton.y -= _this.circle.width * 1.1;
+	      _this.addChild(_this.speedButton);
 	    }
 	
 	    _this.on('added', _this.onAdded.bind(_this));
@@ -33752,7 +33757,6 @@
 	  _createClass(LevelUp, [{
 	    key: 'createButton',
 	    value: function createButton(imageName) {
-	
 	      var button = new PIXI.Container();
 	
 	      var bg = new PIXI.Graphics();
@@ -33788,7 +33792,6 @@
 	  }, {
 	    key: 'onAdded',
 	    value: function onAdded() {
-	
 	      this.circle.scale.set(2, 2);
 	      App.tweens.add(this.circle.scale).from({ x: 3, y: 3 }, 1000, Tweener.ease.quadOut);
 	      var fadeOut = App.tweens.add(this.circle).to({ alpha: 0 }, 1200, Tweener.ease.quintOut);

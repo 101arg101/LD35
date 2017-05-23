@@ -50,14 +50,14 @@ class StateHandler extends EventEmitter {
 
     let hero = new Hero({
       id: data.id,
-      name: data.name, // data.name
+      name: data.name || 'unnamed', // data.name
       x: this.spawnPositions[ data.side ].x,
       y: this.spawnPositions[ data.side ].y,
       properties: {
         attack: 1,
         defense: 1,
         side: data.side
-      }
+      } 
     })
 
     this.addEntity( hero )

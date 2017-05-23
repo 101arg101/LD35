@@ -27,9 +27,9 @@ class Unit {
     this.id = data.id || uniqid()
     this.data = data
 
-    this.speed = 0.05
     this.attack = data.properties.attack || 0
     this.defense = data.properties.defense || 1
+    this.speed = data.properties.speed || 0.05
 
     this.side = parseInt( data.properties.side )
 
