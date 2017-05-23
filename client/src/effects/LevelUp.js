@@ -14,23 +14,34 @@ export default class LevelUp extends PIXI.Container {
     this.addChild( this.circle )
 
     if ( this.isCurrentPlayer ) {
-      this.attackButton = this.createButton('sword.png')
-      this.attackButton.on( 'click', this.upgradeAttribute.bind(this, 'attack') )
-      this.attackButton.on( 'touchstart', this.upgradeAttribute.bind(this, 'attack') )
-      this.attackButton.x -= this.circle.width * 1.1
-      this.addChild( this.attackButton )
-
-      this.defenseButton = this.createButton('shield.png')
-      this.defenseButton.on( 'click', this.upgradeAttribute.bind(this, 'defense') )
-      this.defenseButton.on( 'touchstart', this.upgradeAttribute.bind(this, 'defense') )
-      this.defenseButton.x += this.circle.width * 1.1
-      this.addChild( this.defenseButton )
-
-      this.speedButton = this.createButton('boot.png')
-      this.speedButton.on( 'click', this.upgradeAttribute.bind(this, 'speed') )
-      this.speedButton.on( 'touchstart', this.upgradeAttribute.bind(this, 'speed') )
-      this.speedButton.y -= this.circle.width * 1.1
-      this.addChild( this.speedButton )
+      let abilities = [ 'speed',    'defense',    'attack' ],
+          images =    [ 'boot.png', 'shield.png', 'sword.png' ],
+          // these variables can be modified to customize how the buttons are distributed.
+          arcStart = 0,
+          arcEnd = abilities.length;
+      
+/**      this.attackButton = this.createButton('sword.png')
+  *      this.attackButton.on( 'click', this.upgradeAttribute.bind(this, 'attack') )
+  *      this.attackButton.on( 'touchstart', this.upgradeAttribute.bind(this, 'attack') )
+  *      this.attackButton.x -= this.circle.width * 1.1
+  *      this.addChild( this.attackButton )
+  *
+  *      this.defenseButton = this.createButton('shield.png')
+  *      this.defenseButton.on( 'click', this.upgradeAttribute.bind(this, 'defense') )
+  *      this.defenseButton.on( 'touchstart', this.upgradeAttribute.bind(this, 'defense') )
+  *      this.defenseButton.x += this.circle.width * 1.1
+  *      this.addChild( this.defenseButton )
+  *
+  *      this.speedButton = this.createButton('boot.png')
+  *      this.speedButton.on( 'click', this.upgradeAttribute.bind(this, 'speed') )
+  *      this.speedButton.on( 'touchstart', this.upgradeAttribute.bind(this, 'speed') )
+  *      this.speedButton.y -= this.circle.width * 1.1
+  *      this.addChild( this.speedButton )
+****/
+      
+      for ( let from = arcStart, to = arcEnd; from < to; ++from ) {
+        this.setupButton( abilities[i], images[i], from, to )
+      }
     }
 
     this.on('added', this.onAdded.bind( this ) )
@@ -52,6 +63,18 @@ export default class LevelUp extends PIXI.Container {
     button.interactive = true
 
     return button
+  }
+  
+  setupButton ( attr, img, index, total ) {
+    let theta = Math.PI*index/(total/2), // for determining button placement.
+        distance = this.circle.width*1.25
+    
+    this[attr + 'Button'] = this.createButton(img)
+    this[attr + 'Button'].on( 'click', this.upgradeAttribute.bind(this, attr) )
+    this[attr + 'Button'].on( 'touchstart', this.upgradeAttribute.bind(this, attr) )
+    this[attr + 'Button'].y += Math.cos(theta)*distance
+    this[attr + 'Button'].x += Math.sin(theta)*distance
+    this.addChild( this[attr + 'Button'] )
   }
 
   upgradeAttribute ( attribute, e ) {
