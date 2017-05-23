@@ -33731,23 +33731,35 @@
 	    _this.addChild(_this.circle);
 	
 	    if (_this.isCurrentPlayer) {
-	      _this.attackButton = _this.createButton('sword.png');
-	      _this.attackButton.on('click', _this.upgradeAttribute.bind(_this, 'attack'));
-	      _this.attackButton.on('touchstart', _this.upgradeAttribute.bind(_this, 'attack'));
-	      _this.attackButton.x -= _this.circle.width * 1.1;
-	      _this.addChild(_this.attackButton);
+	      var abilities = ['speed', 'defense', 'attack'],
+	          images = ['boot.png', 'shield.png', 'sword.png'],
 	
-	      _this.defenseButton = _this.createButton('shield.png');
-	      _this.defenseButton.on('click', _this.upgradeAttribute.bind(_this, 'defense'));
-	      _this.defenseButton.on('touchstart', _this.upgradeAttribute.bind(_this, 'defense'));
-	      _this.defenseButton.x += _this.circle.width * 1.1;
-	      _this.addChild(_this.defenseButton);
+	      // these variables can be modified to customize how the buttons are distributed.
+	      arcStart = 0,
+	          arcEnd = abilities.length;
 	
-	      _this.speedButton = _this.createButton('boot.png');
-	      _this.speedButton.on('click', _this.upgradeAttribute.bind(_this, 'speed'));
-	      _this.speedButton.on('touchstart', _this.upgradeAttribute.bind(_this, 'speed'));
-	      _this.speedButton.y -= _this.circle.width * 1.1;
-	      _this.addChild(_this.speedButton);
+	      /**      this.attackButton = this.createButton('sword.png')
+	        *      this.attackButton.on( 'click', this.upgradeAttribute.bind(this, 'attack') )
+	        *      this.attackButton.on( 'touchstart', this.upgradeAttribute.bind(this, 'attack') )
+	        *      this.attackButton.x -= this.circle.width * 1.1
+	        *      this.addChild( this.attackButton )
+	        *
+	        *      this.defenseButton = this.createButton('shield.png')
+	        *      this.defenseButton.on( 'click', this.upgradeAttribute.bind(this, 'defense') )
+	        *      this.defenseButton.on( 'touchstart', this.upgradeAttribute.bind(this, 'defense') )
+	        *      this.defenseButton.x += this.circle.width * 1.1
+	        *      this.addChild( this.defenseButton )
+	        *
+	        *      this.speedButton = this.createButton('boot.png')
+	        *      this.speedButton.on( 'click', this.upgradeAttribute.bind(this, 'speed') )
+	        *      this.speedButton.on( 'touchstart', this.upgradeAttribute.bind(this, 'speed') )
+	        *      this.speedButton.y -= this.circle.width * 1.1
+	        *      this.addChild( this.speedButton )
+	      ****/
+	
+	      for (var from = arcStart, to = arcEnd; from < to; ++from) {
+	        _this.setupButton(abilities[i], images[i], from, to);
+	      }
 	    }
 	
 	    _this.on('added', _this.onAdded.bind(_this));
@@ -33772,6 +33784,20 @@
 	      button.interactive = true;
 	
 	      return button;
+	    }
+	  }, {
+	    key: 'setupButton',
+	    value: function setupButton(attr, img, index, total) {
+	      var theta = Math.PI * index / (total / 2),
+	          // for determining button placement.
+	      distance = this.circle.width * 1.25;
+	
+	      this[attr + 'Button'] = this.createButton(img);
+	      this[attr + 'Button'].on('click', this.upgradeAttribute.bind(this, attr));
+	      this[attr + 'Button'].on('touchstart', this.upgradeAttribute.bind(this, attr));
+	      this[attr + 'Button'].y += Math.cos(theta) * distance;
+	      this[attr + 'Button'].x += Math.sin(theta) * distance;
+	      this.addChild(this[attr + 'Button']);
 	    }
 	  }, {
 	    key: 'upgradeAttribute',
