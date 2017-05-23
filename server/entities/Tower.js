@@ -1,7 +1,5 @@
 const Unit = require('./Unit.js')
-
 const config = require('../config.js')
-
 var spawnInterval = new WeakMap()
 
 class Tower extends Unit {
