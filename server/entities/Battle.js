@@ -120,24 +120,24 @@ class Battle {
     this.percentage = ( side1Percent + side2Percent ) / 2
 
     let winners = []
-    let loosers = []
+    let losers = []
 
     if ( this.hp[ side1 ] <= 0 && this.hp[ side2 ] <= 0 ) {
 
-      loosers = [...unitsSide1, ...unitsSide2]
+      losers = [...unitsSide1, ...unitsSide2]
 
     } else if ( this.hp[ side1 ] <= 0 || this.hp[ side2 ] <= 0 ) {
 
       winners = ( this.hp[ side1 ] <= 0 ) ? unitsSide2 : unitsSide1
-      loosers = ( this.hp[ side1 ] <= 0 ) ? unitsSide1 : unitsSide2
+      losers = ( this.hp[ side1 ] <= 0 ) ? unitsSide1 : unitsSide2
 
     }
 
-    if ( winners.length > 0 || loosers.length > 0 ) {
+    if ( winners.length > 0 || losers.length > 0 ) {
 
-      let expToIncrement = this.getUnitsAttribute ( loosers, 'lvl' ) / winners.length
+      let expToIncrement = this.getUnitsAttribute ( losers, 'lvl' ) / winners.length
 
-      loosers.map( unit => {
+      losers.map( unit => {
         state.removeEntity ( unit )
 
         if ( unit instanceof Tower ) {
