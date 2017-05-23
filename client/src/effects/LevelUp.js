@@ -1,9 +1,7 @@
 import { send } from '../core/Network.js'
 
 export default class LevelUp extends PIXI.Container {
-
   constructor ( side, isCurrentPlayer = false) {
-
     super()
 
     this.side = side
@@ -16,7 +14,6 @@ export default class LevelUp extends PIXI.Container {
     this.addChild( this.circle )
 
     if ( this.isCurrentPlayer ) {
-
       this.attackButton = this.createButton('sword.png')
       this.attackButton.on( 'click', this.upgradeAttribute.bind(this, 'attack') )
       this.attackButton.on( 'touchstart', this.upgradeAttribute.bind(this, 'attack') )
@@ -29,13 +26,17 @@ export default class LevelUp extends PIXI.Container {
       this.defenseButton.x += this.circle.width * 1.1
       this.addChild( this.defenseButton )
 
+      this.speedButton = this.createButton('boot.png')
+      this.speedButton.on( 'click', this.upgradeAttribute.bind(this, 'speed') )
+      this.speedButton.on( 'touchstart', this.upgradeAttribute.bind(this, 'speed') )
+      this.speedButton.y -= this.circle.width * 1.1
+      this.addChild( this.speedButton )
     }
 
     this.on('added', this.onAdded.bind( this ) )
   }
 
   createButton ( imageName ) {
-
     let button = new PIXI.Container()
 
     let bg = new PIXI.Graphics()
@@ -51,11 +52,9 @@ export default class LevelUp extends PIXI.Container {
     button.interactive = true
 
     return button
-
   }
 
   upgradeAttribute ( attribute, e ) {
-
     e.stopPropagation()
 
     send(['up', attribute])
@@ -66,17 +65,17 @@ export default class LevelUp extends PIXI.Container {
     App.tweens.add( this ).to({ alpha: 0 }, 250, Tweener.ease.quadOut).then( () => {
       this.parent.removeChild ( this )
     })
-
   }
 
   onAdded ( ) {
-
     this.circle.scale.set( 2, 2 )
     App.tweens.add( this.circle.scale ).from( {x: 3, y: 3 }, 1000, Tweener.ease.quadOut )
-    let fadeOut = App.tweens.add( this.circle ).to( { alpha: 0 }, 1200, Tweener.ease.quintOut )
+    let fadeOut = App.tweens.add( this.circle ).to(
+      { alpha: 0 },
+      1200,
+      Tweener.ease.quintOut
+    )
 
     if ( !this.isCurrentPlayer ) { this.parent.removeChild ( this ) }
-
   }
-
 }
