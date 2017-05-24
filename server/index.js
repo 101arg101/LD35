@@ -1,19 +1,15 @@
 "use strict";
 
-var tmxParser = require('tmx-parser')
-
-  , colyseus = require('colyseus')
-  , http = require('http')
-
-  , express = require('express')
-  , cors = require('cors')
-
-  , port = process.env.PORT || 3553
-  , app = express()
-  , server = http.createServer(app)
-  , gameServer = new colyseus.Server({ server: server })
-
-  , BattleMapRoom = require('./rooms/BattleMapRoom')
+var tmxParser = require('tmx-parser'),
+    colyseus = require('colyseus'),
+    http = require('http'),
+    express = require('express'),
+    cors = require('cors'),
+    port = process.env.PORT || 3553,
+    app = express(),
+    server = http.createServer(app),
+    gameServer = new colyseus.Server({ server: server }),
+    BattleMapRoom = require('./rooms/BattleMapRoom')
 
 tmxParser.parseFile('./maps/default.tmx', function (err, map) {
   if (err) throw err;

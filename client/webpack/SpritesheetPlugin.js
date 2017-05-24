@@ -1,6 +1,6 @@
 var spritesheet = require('spritesheet-js');
 
-function SpritesheetPlugin (path, options) {
+function SpritesheetPlugin(path, options) {
   this.path = path
   this.options = options
 }

@@ -1,11 +1,8 @@
 import { Behaviour } from 'behaviour.js'
 
 export default class RespawnCountdown extends Behaviour {
-
-  onAttach ( hero ) {
-
+  onAttach(hero) {
     this.time = hero.lvl
-
     this.respawnText = new PIXI.Text("", {
       font: '24px Arial',
       fill: 0xffffff,
@@ -15,34 +12,23 @@ export default class RespawnCountdown extends Behaviour {
     })
     this.respawnText.x = hero.x
     this.respawnText.y = hero.y
-    this.respawnText.anchor.set( 0.5 )
-
-    this.object.topLayer.addChild( this.respawnText )
-
+    this.respawnText.anchor.set(0.5)
+    this.object.topLayer.addChild(this.respawnText)
     this.decrement()
-
-    this.interval = App.clock.setInterval( () => this.decrement(), 1000 )
-
+    this.interval = App.clock.setInterval(() => this.decrement(), 1000)
   }
 
-  decrement () {
-
-    if ( this.time === 0 ) {
-      this.respawnText.parent.removeChild ( this.respawnText )
+  decrement() {
+    if (this.time === 0) {
+      this.respawnText.parent.removeChild(this.respawnText)
       this.detach()
     }
 
     this.time--
-
     this.respawnText.text = `Will respawn in ${ this.time }...`
-
   }
 
-  onDetach () {
-
+  onDetach() {
     this.interval.clear()
-
   }
-
 }
-

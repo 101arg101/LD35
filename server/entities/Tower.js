@@ -3,8 +3,8 @@ const config = require('../config.js')
 var spawnInterval = new WeakMap()
 
 class Tower extends Unit {
-  constructor ( options ) {
-    super ( options )
+  constructor(options) {
+    super(options)
     this.type = 'tower'
     this.alive = true
     this.isSpawnAllowed = this.data.properties.spawn != 0
@@ -17,40 +17,39 @@ class Tower extends Unit {
     this.spawnPerWave = config.spawnPerWave
   }
 
-  setup ( state ) {
+  setup(state) {
     // spawn feature might be disabled on this tower
-    if ( this.isSpawnAllowed )  {
-      state.clock.setInterval( this.toggleSpawner.bind(this, state) , this.spawnWaveInterval )
-      this.toggleSpawner( state )
+    if (this.isSpawnAllowed) {
+      state.clock.setInterval(this.toggleSpawner.bind(this, state), this.spawnWaveInterval)
+      this.toggleSpawner(state)
     }
   }
 
-  toggleSpawner ( state ) {
+  toggleSpawner(state) {
     // don't spawn if tower is not alive
-    if ( ! this.alive ) {
-      return
-    }
-    spawnInterval.set( this, state.clock.setInterval( this.spawn.bind(this, state), this.spawnInterval ) )
+    if (!this.alive) return;
+    spawnInterval.set(this, state.clock.setInterval(this.spawn.bind(this, state), this.spawnInterval))
     // clear spawn interval after wave is complete
-    state.clock.setTimeout( () => { spawnInterval.get( this ).clear() }, this.spawnInterval * this.spawnPerWave )
+    state.clock.setTimeout(() => { spawnInterval.get(this).clear() }, this.spawnInterval*this.spawnPerWave)
   }
 
-  spawn ( state ) {
+  spawn(state) {
     let creep = new Unit({
       lvl: this.lvl,
       x: this.position.x,
       y: this.position.y,
       properties: {
         isCreep: true,
-        side: parseInt( this.side ),
-        attack: this.lvl - Math.round( Math.random() ) + Math.round( Math.random() ),
-        defense: this.lvl - Math.round( Math.random() ) + Math.round( Math.random() ),
+        side: parseInt(this.side),
+        // TODO: make DRY
+        attack: this.lvl - Math.round(Math.random()) + Math.round(Math.random()),
+        defense: this.lvl - Math.round(Math.random()) + Math.round(Math.random()),
       }
     })
 
     // creep destiny is always the opposite tower
-    let enemyTowers = state.towers.filter( tower => tower.side !== this.side )
-    let nextEnemyTower = enemyTowers.filter( tower => tower.position.x === this.position.x )
+    let enemyTowers = state.towers.filter(tower => tower.side !== this.side)
+    let nextEnemyTower = enemyTowers.filter(tower => tower.position.x === this.position.x)
     creep.destiny = nextEnemyTower[0].position
 
     // if ( nextEnemyTower.length > 0 ) {
@@ -58,7 +57,7 @@ class Tower extends Unit {
     // } else {
     //   creep.destiny = enemyTowers[0].position
     // }
-    state.addEntity( creep )
+    state.addEntity(creep)
   }
 }
 

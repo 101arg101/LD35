@@ -1,71 +1,70 @@
 "use strict";
 
-var Room = require('colyseus').Room
-    , ClockTimer = require('clock-timer.js').default
-    , StateHandler = require('./../handlers/StateHandler.js')
+var Room = require('colyseus').Room,
+    ClockTimer = require('clock-timer.js').default,
+    StateHandler = require('./../handlers/StateHandler.js')
 
 const TICK_RATE = 30
 
 class BattleMapRoom extends Room {
-  constructor (options) {
+  constructor(options) {
     super(options)
     this.heroes = new WeakMap()
     this.clock = new ClockTimer()
-    this.setState(new StateHandler( this.clock, options.map ))
-    this.state.on( 'gameover', this.onGameOver.bind( this ) )
-    this.tickInterval = setInterval(this.tick.bind(this), 1000 / TICK_RATE)
+    this.setState(new StateHandler(this.clock, options.map))
+    this.state.on('gameover', this.onGameOver.bind(this))
+    this.tickInterval = setInterval(this.tick.bind(this), 1000/TICK_RATE)
     this.started = false
   }
 
-  requestJoin (options) {
-    return ( this.clients.length < 8 )
+  requestJoin(options) {
+    return this.clients.length < 8
   }
 
-  onJoin (client, options) {
-    let side = ( this.clients.length % 2 == 1 ) ? 0 : 1
+  onJoin(client, options) {
+    let side = (this.clients.length % 2 == 1) ? 0 : 1
     let hero = this.state.createHero({
       id: client.id,
       side: side,
       name: options.name
     })
 
-    this.heroes.set( client, hero )
+    this.heroes.set(client, hero)
 
     console.log(client.id, 'joined', options, hero)
   }
 
-  onMessage (client, data) {
-    let key = data[0]
-      , value = data[1]
-      , hero = this.heroes.get( client )
+  onMessage(client, data) {
+    let key = data[0],
+        value = data[1],
+        hero = this.heroes.get(client)
 
     if (!hero) {
-      console.log("ERROR: message coming from invalid hero.")
-      return
+      return console.log("ERROR: message coming from invalid hero.")
     }
 
     if (key == 'move') {
-      hero.moveTo ( value )
+      hero.moveTo(value)
     } else if (key == 'up') {
       // prevent upgrading other attributes is implicitly handled in server/entities/Hero.js
-      hero.levelUp ( value )
+      hero.levelUp(value)
     }
   }
 
-  onLeave (client) {
-    this.state.removeEntity( this.heroes.get( client ) )
+  onLeave(client) {
+    this.state.removeEntity(this.heroes.get(client))
   }
 
-  tick () {
+  tick() {
     this.state.update()
   }
 
-  onGameOver () {
+  onGameOver() {
     // prevent other users from entering finished game
     this.lock()
   }
 
-  dispose () {
+  dispose() {
     clearInterval(this.tickInterval)
     console.log("dispose BattleMapRoom", this.roomId)
   }
