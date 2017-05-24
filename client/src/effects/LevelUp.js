@@ -14,33 +14,24 @@ export default class LevelUp extends PIXI.Container {
     this.addChild( this.circle )
 
     if ( this.isCurrentPlayer ) {
-      let abilities = [ 'speed',    'defense',    'attack' ],
-          images =    [ 'boot.png', 'shield.png', 'sword.png' ],
-          // these variables can be modified to customize how the buttons are distributed.
+      let attributes = [
+            {
+              name: 'speed',    // reference to the model's attribute
+              image: 'boot.png' // image that shows to the end user
+            }, {
+              name: 'defense',
+              image: 'shield.png'
+            }, {
+              name: 'attack',
+              image: 'sword.png'
+            }
+          ]
+          // these 2 variables can be modified to customize how the buttons are distributed.
           arcStart = 0,
-          arcEnd = abilities.length;
+          arcEnd = attributes.length;
       
-/**      this.attackButton = this.createButton('sword.png')
-  *      this.attackButton.on( 'click', this.upgradeAttribute.bind(this, 'attack') )
-  *      this.attackButton.on( 'touchstart', this.upgradeAttribute.bind(this, 'attack') )
-  *      this.attackButton.x -= this.circle.width * 1.1
-  *      this.addChild( this.attackButton )
-  *
-  *      this.defenseButton = this.createButton('shield.png')
-  *      this.defenseButton.on( 'click', this.upgradeAttribute.bind(this, 'defense') )
-  *      this.defenseButton.on( 'touchstart', this.upgradeAttribute.bind(this, 'defense') )
-  *      this.defenseButton.x += this.circle.width * 1.1
-  *      this.addChild( this.defenseButton )
-  *
-  *      this.speedButton = this.createButton('boot.png')
-  *      this.speedButton.on( 'click', this.upgradeAttribute.bind(this, 'speed') )
-  *      this.speedButton.on( 'touchstart', this.upgradeAttribute.bind(this, 'speed') )
-  *      this.speedButton.y -= this.circle.width * 1.1
-  *      this.addChild( this.speedButton )
-****/
-      
-      for ( let from = arcStart, to = arcEnd; from < to; ++from ) {
-        this.setupButton( abilities[i], images[i], from, to )
+      for ( let i = arcStart, limit = arcEnd; i < limit; ++i ) {
+        this.setupButton( attributes[i].name, attributes[i].image, i, limit )
       }
     }
 
