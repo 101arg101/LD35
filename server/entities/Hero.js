@@ -32,7 +32,7 @@ class Hero extends Unit {
   }
   
   levelUp(attribute) {
-    if (this.pointsToDistribute > 0 && typeof this.stats(attribute) === 'number') {
+    if (this.pointsToDistribute > 0 && typeof this.stat(attribute) === 'number') {
       this.stats[attribute][1]++
       this.pointsToDistribute--
       this.stat()
