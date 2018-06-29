@@ -25,10 +25,11 @@ class StateHandler extends EventEmitter {
     // TODO: convert to forEach
     for (let i = 0, lim = map.layers.length; i < lim; i++) {
       let layer = map.layers[i]
-      for (let j = 0, jlim = layers.objects.length; j < jlim; j++) {
+      for (let j = 0, jlim = layer.objects.length; j < jlim; j++) {
         this.parseObject(layer.name, layer.objects[ j ])
       }
     }
+    /* */
   }
 
   createHero(data) {

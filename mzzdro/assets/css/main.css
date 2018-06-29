@@ -1,0 +1,186 @@
+@charset "utf-8";
+/* CSS Document */
+*{
+	margin: 0;
+	border: 0;
+	padding: 0;
+}
+body{
+	background-color: #fff;
+	transition:			background-color 2s;
+	-o-transition:		background-color 2s;
+	-moz-transition:	background-color 2s;
+	-webkit-transition:	background-color 2s;
+	overflow-x: hidden;
+}
+p{
+	border-top: #ccc dotted 5px;
+	margin: 0 64px;
+	padding: 12px 0;
+	font-family: 'tahoma';
+	font-size: 15px;
+}
+#minimap{
+	top: 0;
+	left: 0;
+	width: 0;
+	height: 0;
+	z-index: 10000;
+	position: fixed;
+	overflow: hidden;
+	transition:			transform 3s;
+	-o-transition:		transform 3s;
+	-ms-transition:		transform 3s;
+	-moz-transition:	transform 3s;
+	-webkit-transition:	transform 3s;
+	perspective:		800px;
+}
+#minimapobjects{
+	top: 0;
+	left: 0;
+	width: 0;
+	height: 0;
+	z-index: 10001;
+	position: fixed;
+	overflow: hidden;
+	transition:			transform 3s;
+	-o-transition:		transform 3s;
+	-ms-transition:		transform 3s;
+	-moz-transition:	transform 3s;
+	-webkit-transition:	transform 3s;
+	perspective:		800px;
+}
+#removables{
+	position: relative;
+	background-color: #02bcd3;
+	background-image: url('../images/bluebg.png');
+	width: 700px;
+	height: 100%;
+	margin: 0 auto 32px;
+	text-align: center;
+	border: #222 3px solid;
+	border-bottom-left-radius: 62px;
+	border-bottom-right-radius: 62px;
+	z-index: 100;
+}
+#escher{
+	position: absolute;
+	left: 0%;
+	top: 0;
+	background-image: url('../images/metamorphosis3Seamless.png');
+	background-repeat: repeat-x;
+	width: 10009px;
+	height: 229px;
+	z-index: 50;
+	transition:			left 293299ms cubic-bezier(0.5, 0, .75, .5);
+	-o-transition:		left 293299ms cubic-bezier(0.5, 0, .75, .5);
+	-moz-transition:	left 293299ms cubic-bezier(0.5, 0, .75, .5);
+	-webkit-transition:	left 293299ms cubic-bezier(0.5, 0, .75, .5);
+}
+#startButton{
+	display: block;
+	margin: 32px 64px;
+	width: 156px;
+	height: 86px;
+	background-image: url('../images/startButton.png');
+	line-height: 90px;
+	font-size: 30px;
+	background-color: #ddd;
+	border: #258 2px solid;
+	border-radius: 12px;
+	cursor: pointer;
+}
+#startButton:hover{
+	border-color: #46a;
+}
+#keyImage{
+	position: relative;
+	float: right;
+	z-index: 14000;
+	max-height: 86px;
+	margin: 32px 64px;
+	border-radius: 10px;
+}
+#demoBlack{
+	z-index: 12000;
+	width: 100px;
+	height: 100px;
+	background-color: #000;
+}
+#demoDark{
+	z-index: 12001;
+	width: 100px;
+	height: 60px;
+	bottom: 20px;
+	right: 40px;
+	background-color: rgb(24,24,24);
+}
+#demoWhite{
+	z-index: 12000;
+	width: 100px;
+	height: 100px;
+	background-color: #FFF;
+}
+#demoLight{
+	z-index: 12001;
+	width: 100px;
+	bottom: 20px;
+	height: 60px;
+	left: 40px;
+	background-color: rgb(248,248,248);
+}
+#resetSettingsBtn{
+	display: inline-block;
+	margin: 16px 64px 32px;
+	width: 126px;
+	height: 56px;
+	background-image: url('../images/startButton.png');
+	line-height: 60px;
+	font-size: 20px;
+	background-color: #ddd;
+	border: #258 2px solid;
+	border-radius: 12px;
+	cursor: pointer;
+}
+#resetSettingsBtn:hover{
+	border-color: #46a;
+}
+.precanvas{
+	position: fixed;
+	right: 100%;
+	bottom: 100%;
+}
+.fLeft{
+	float: left;
+	margin: 0 16px;
+}
+.fRight{
+	float: right;
+	margin: 0 16px;
+}
+.ui-slider{
+	margin: 0 64px 64px 64px;
+	font-size: 11px;
+}
+.ui-slider-range{
+	height: 13px;
+	position: relative;
+	right: 1px;
+	border-radius: 3px;
+	background-image: url('../images/layBack.png');
+	background-position: 100% 100%;
+	transition:			width .3s;
+	-o-transition:		width .3s;
+	-ms-transition:		width .3s;
+	-moz-transition:	width .3s;
+	-webkit-transition:	width .3s;
+}
+.ui-slider-handle{
+	display: none;
+}
+.demoC{
+	display: inline-block;
+	margin: 16px 0;
+	position: relative;
+	border-radius: 12px;
+}

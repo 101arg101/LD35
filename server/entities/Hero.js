@@ -3,7 +3,6 @@ const Unit = require('./Unit.js')
 class Hero extends Unit {
   constructor(options) {
     super(options)
-    
     this.type = 'hero'
     this.name = options.name
     this.lvl = 1
@@ -24,9 +23,7 @@ class Hero extends Unit {
     return 0
   }
 
-  levelUp(attribute) {
-    // TODO: add john cena airhorn upon level up
-    // TODO: lower all audio files' volume by 90% except for airhorn
+  oldLevelUp(attribute) {
     if (this.pointsToDistribute > 0 && this.incrementAmount(attribute)) {
       this[attribute] += this.incrementAmount(attribute)
       this.pointsToDistribute--
@@ -34,8 +31,13 @@ class Hero extends Unit {
     console.log('Attributes up for ' + this)
   }
   
-  toString() {
-    return `${ this.name }: { speed: ${ this.speed }, attack: ${ this.attack }, defense: ${ this.defense } }`
+  levelUp(attribute) {
+    if (this.pointsToDistribute > 0 && typeof this.stats(attribute) === 'number') {
+      this.stats[attribute][1]++
+      this.pointsToDistribute--
+      this.stat()
+    }
+    console.log('Attributes up for ' + this)
   }
 }
 

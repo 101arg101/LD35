@@ -27,6 +27,29 @@ class Unit {
     this.attack = data.properties.attack || 0
     this.defense = data.properties.defense || 1
     this.speed = data.properties.speed || 0.05
+    
+    this.busy = false
+    // TODO: modularize
+    // stat  = [calc, base, nat-coe, tmp-coe, nat-add, tmp-add]
+    this.stats = {
+      hp:  [3,3, 1,1, 0,0],
+      atk: [2,2, 1,1, 0,0],
+      def: [1,1, 1,1, 0,0],
+      spe: [1,1, 1,1, 0,0]
+    }
+    this.damage = 0
+    
+    // TODO: modularize
+    this.skills = [
+      'buff',
+      'heal',
+      'curse'
+    ]
+  }
+  
+  toString() {
+    // return `${ this.name }: { speed: ${ this.speed }, attack: ${ this.attack }, defense: ${ this.defense } }`
+    return `{ <${ this.name }> hp: ${this.stats.hp[0]}, atk: ${this.stats.atk[0]}, def: ${this.stats.def[0]}, spe: ${this.stats.spe[0]} }`
   }
 
   update(state) {
@@ -72,6 +95,47 @@ class Unit {
       battleInstances.get(this).leave(this, true)
       lastBattleAbandon.set(this, Date.now())
     }
+  }
+  
+  useSkill(skill) {
+    this.busy = true
+    if (this.skills[skill] === 'buff') {
+      this.stat('atk','add',1)
+      this.stat('def','mult',.5)
+    } else if (this.skills[skill] === 'heal') {
+      this.damage = 0
+    } else if (this.skills[skill] === 'curse') {
+      this.stat('atk','div',.5)
+      this.stat('def','div',.5)
+    }
+    return this.stats
+  }
+  
+  stat(stat, action, amount) {
+    // hero.stat('hp', sub, .1)
+    // this.stats = {
+      //    calc, base, coe, coetmp, mod, modtmp
+      // hp:  [3,3, 1,1, 0,0],
+      // atk: [2,2, 1,1, 0,0],
+      // def: [1,1, 1,1, 0,0],
+      // spe: [1,1, 1,1, 0,0]
+    // }
+    
+    if (action === 'reset') {
+      this.stats[stat][3] = this.stats[stat][2]
+      this.stats[stat][5] = this.stats[stat][4]
+    } else if (action === 'set') {
+    } else if (action === 'add') {
+      this.stats[stat][5] += amount
+    } else if (action === 'sub') {
+      this.stats[stat][5] -= amount
+    } else if (action === 'mul') {
+      this.stats[stat][3] += amount
+    } else if (action === 'div') {
+      this.stats[stat][3] -= amount
+    }
+    this.stats[stat][0] = this.stats[stat][3] * (this.stats[stat][1] + this.stats[stat][5])
+    return this.stats[stat][0]
   }
 
   set battle(battle) {

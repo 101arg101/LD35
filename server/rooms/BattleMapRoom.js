@@ -45,6 +45,8 @@ class BattleMapRoom extends Room {
 
     if (key == 'move') {
       hero.moveTo(value)
+    } else if (key == 'skill') {
+      console.log(hero.useSkill(value))
     } else if (key == 'up') {
       // prevent upgrading other attributes is implicitly handled in server/entities/Hero.js
       hero.levelUp(value)

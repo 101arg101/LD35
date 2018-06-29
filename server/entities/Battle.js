@@ -33,10 +33,12 @@ class Battle {
 
     if (!this.hp[unit.side]) {
 
-      this.hp[unit.side] = unit.defense
+      // this.hp[unit.side] = unit.defense
+      this.hp[unit.side] = unit.stat('hp')
 
     } else {
-      this.hp[unit.side] += unit.defense
+      // this.hp[unit.side] += unit.defense
+      this.hp[unit.side] += unit.stat('hp')
     }
 
     _units.get(this).push(unit)
@@ -91,11 +93,14 @@ class Battle {
 
     // TODO: process "first-strike"
 
-    this.hp[side1] -= this.getUnitsAttribute(unitsSide2, 'attack')
-    this.hp[side2] -= this.getUnitsAttribute(unitsSide1, 'attack')
+    // this.hp[side1] -= this.getUnitsAttribute(unitsSide2, 'attack')
+    // this.hp[side2] -= this.getUnitsAttribute(unitsSide1, 'attack')
 
-    let side1Percent = this.hp[side1]/this.getUnitsAttribute(unitsSide1, 'defense')
-    let side2Percent = this.hp[side2]/this.getUnitsAttribute(unitsSide2, 'defense')
+    this.hp[side1] -= Math.max([this.getUnitsStat(unitsSide2, 'atk') - this.getUnitsStat(unitsSide1, 'def'),0])
+    this.hp[side2] -= Math.max([this.getUnitsStat(unitsSide1, 'atk') - this.getUnitsStat(unitsSide2, 'def'),0])
+
+    let side1Percent = this.hp[side1]/this.getUnitsStat(unitsSide1, 'hp')
+    let side2Percent = this.hp[side2]/this.getUnitsStat(unitsSide2, 'hp')
 
     this.percentage = (side1Percent + side2Percent) / 2
 
@@ -147,6 +152,15 @@ class Battle {
     return units.reduce(
       (previousValue, currentUnit, currentIndex) => {
         return previousValue + currentUnit[attribute]
+      },
+      0
+    )
+  }
+
+  getUnitsStat(units, stat) {
+    return units.reduce(
+      (previousValue, currentUnit, currentIndex) => {
+        return previousValue + currentUnit.stat(stat)
       },
       0
     )
